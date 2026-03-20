@@ -21,12 +21,12 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{height:100%;height:-webkit-fill-available}
 body{height:100%;height:-webkit-fill-available;min-height:100dvh;background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased;text-size-adjust:none;-webkit-text-size-adjust:none}
-#app{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;width:100%;height:100%;height:100dvh}
-.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);will-change:transform;overflow:hidden}
+#app{position:fixed;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;width:100vw;height:100vh;height:100dvh}
+.screen{position:absolute;top:0;left:0;right:0;bottom:0;display:flex;flex-direction:column;background:var(--bg);will-change:transform;overflow:hidden}
 .screen.slide-right{transform:translateX(100%);pointer-events:none}
 .screen.slide-left{transform:translateX(-28%);opacity:.25;pointer-events:none}
 .screen.animating{transition:transform .38s cubic-bezier(.25,.46,.45,.94),opacity .38s cubic-bezier(.25,.46,.45,.94)}
-.scr-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom,34px))}
+.scr-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain;padding-bottom:calc(64px + env(safe-area-inset-bottom,0px))}
 .topbar{padding:max(52px,calc(env(safe-area-inset-top,0px) + 16px)) 20px 0;flex-shrink:0}
 .app-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--m2);margin-bottom:5px}
 .topbar h1{font-size:clamp(24px,7vw,32px);font-weight:700;letter-spacing:-.8px;line-height:1.1;margin-bottom:14px}
@@ -65,8 +65,8 @@ body{height:100%;height:-webkit-fill-available;min-height:100dvh;background:var(
 .name-day-input{flex:1;background:var(--card2);border:1px solid var(--b2);border-radius:var(--r2);color:var(--t);font-size:15px;padding:11px 13px;outline:none;font-family:inherit}
 .name-day-input:focus{border-color:var(--b3)}
 .name-day-ok{padding:11px 16px;background:var(--acc);color:#0a0a0a;border:none;border-radius:var(--r2);font-size:14px;font-weight:800;cursor:pointer;flex-shrink:0}
-.bottom-nav{position:absolute;bottom:0;left:0;right:0;display:flex;background:rgba(10,10,10,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:0.5px solid var(--b2);padding-top:8px;padding-bottom:max(env(safe-area-inset-bottom,20px),20px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:100}
-.nav-btn{flex:1;padding:2px 0 0;background:none;border:none;cursor:pointer;font-size:10px;color:var(--m);display:flex;flex-direction:column;align-items:center;gap:4px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;transition:color .18s;-webkit-user-select:none;user-select:none}
+.bottom-nav{position:absolute;bottom:0;left:0;right:0;display:flex;background:rgba(10,10,10,.97);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:0.5px solid var(--b2);padding-top:10px;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 10px);padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px);z-index:100}
+.nav-btn{flex:1;padding:0;background:none;border:none;cursor:pointer;font-size:10px;color:var(--m);display:flex;flex-direction:column;align-items:center;gap:4px;letter-spacing:.04em;text-transform:uppercase;font-weight:600;transition:color .18s;-webkit-user-select:none;user-select:none;min-height:44px;justify-content:center}
 .nav-btn svg{transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
 .nav-btn.active svg{transform:scale(1.15)}
 .nav-btn:active svg{transform:scale(.82)}
@@ -443,7 +443,7 @@ canvas.bw-canvas{display:block;width:100%;height:130px}
 </div>
 <!-- REST TIMER -->
 <div id="rest-timer" class="rest-timer">
-  <div style="font-size:18px">⏱️</div>
+  <div style="font-size:18px"⏱️</div>
   <div class="rest-time" id="rest-time">01:30</div>
   <div class="rest-close" id="rest-timer-close">✕</div>
 </div>
@@ -1382,4 +1382,3 @@ if(savedUser){
 </script>
 </body>
 </html>
-
