@@ -7,12 +7,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="GymLog"/>
 <meta name="theme-color" content="#0a0a0a"/>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="manifest" href="manifest.json">
-<link rel="icon" type="image/png" href="icon-512.png" />
-<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%230a0a0a'/%3E%3Cellipse cx='50' cy='50' rx='32' ry='10' fill='none' stroke='%23d4ff4e' stroke-width='7' stroke-linecap='round'/%3E%3Crect x='16' y='38' width='8' height='24' rx='4' fill='%23d4ff4e'/%3E%3Crect x='76' y='38' width='8' height='24' rx='4' fill='%23d4ff4e'/%3E%3Crect x='8' y='42' width='10' height='16' rx='3' fill='%23d4ff4e'/%3E%3Crect x='82' y='42' width='10' height='16' rx='3' fill='%23d4ff4e'/%3E%3C/svg%3E"/>
 <title>GymLog</title>
 <style>
 :root{
@@ -25,16 +20,14 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{height:100%;height:-webkit-fill-available}
-body{height:100%;height:-webkit-fill-available;min-height:100dvh;background:var(--bg);color:var(--t);font-family:'Inter',-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased;text-size-adjust:none;-webkit-text-size-adjust:none;-webkit-user-select:none;user-select:none}
-input,textarea{-webkit-user-select:auto;user-select:auto}
-::-webkit-scrollbar{display:none}
+body{height:100%;height:-webkit-fill-available;min-height:100dvh;background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased;text-size-adjust:none;-webkit-text-size-adjust:none}
 #app{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;width:100%;height:100%;height:100dvh}
 .screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);will-change:transform;overflow:hidden}
 .screen.slide-right{transform:translateX(100%);pointer-events:none}
 .screen.slide-left{transform:translateX(-28%);opacity:.25;pointer-events:none}
 .screen.animating{transition:transform .38s cubic-bezier(.25,.46,.45,.94),opacity .38s cubic-bezier(.25,.46,.45,.94)}
 .scr-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(90px + env(safe-area-inset-bottom,34px))}
-.topbar{padding:max(48px,calc(env(safe-area-inset-top,0px) + 12px)) 20px 0;flex-shrink:0}
+.topbar{padding:max(52px,calc(env(safe-area-inset-top,0px) + 16px)) 20px 0;flex-shrink:0}
 .app-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--m2);margin-bottom:5px}
 .topbar h1{font-size:clamp(24px,7vw,32px);font-weight:700;letter-spacing:-.8px;line-height:1.1;margin-bottom:14px}
 .topbar h1 em{font-style:normal;color:var(--acc)}
@@ -90,8 +83,7 @@ input,textarea{-webkit-user-select:auto;user-select:auto}
 .ex-list-card.dragging{opacity:.5}
 .drag-handle{width:28px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;flex-shrink:0;cursor:grab;padding:4px 0;opacity:.3}
 .drag-handle span{display:block;width:16px;height:1.5px;background:var(--t);border-radius:2px}
-.ex-list-head{padding:14px;display:flex;align-items:center;background:var(--card);gap:12px;position:relative;z-index:2;cursor:pointer;user-select:none;-webkit-user-select:none}
-.ex-circle{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.ex-circle{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
 .circ-pierna{background:rgba(78,158,255,.1)}.circ-torso{background:rgba(255,107,78,.1)}.circ-extra{background:rgba(255,255,255,.06)}
 .ex-list-info{flex:1;min-width:0}
 .ex-name-row{display:flex;align-items:center;gap:6px;margin-bottom:3px;flex-wrap:wrap}
@@ -212,6 +204,14 @@ canvas.prog-chart{display:block;width:100%;height:120px}
 .add-set-btn{display:flex;align-items:center;justify-content:center;gap:6px;margin:0 14px 8px;width:calc(100% - 28px);padding:13px;background:var(--card);border:1px dashed var(--b2);border-radius:var(--r2);color:var(--m2);font-size:14px;font-weight:500;cursor:pointer}
 .add-set-btn:active{background:var(--card2)}
 .done-ex-btn{margin:0 14px 12px;width:calc(100% - 28px);padding:16px;background:var(--acc);color:#0a0a0a;border:none;border-radius:var(--r);font-size:15px;font-weight:800;cursor:pointer;display:block}
+/* SET CHECK */
+.set-check{width:46px;height:46px;margin-left:8px;border-radius:12px;background:var(--card3);border:1.5px solid var(--b2);color:var(--m2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s;font-size:18px;font-weight:700}
+.set-check.checked{background:var(--acc);color:#0a0a0a;border-color:var(--acc);box-shadow:0 0 14px rgba(212,255,78,0.25)}
+/* REST TIMER */
+.rest-timer{position:fixed;top:-80px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,0.92);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,255,78,0.3);border-radius:30px;padding:10px 20px;display:flex;align-items:center;gap:12px;z-index:99999;box-shadow:0 10px 40px rgba(0,0,0,0.5),0 0 20px rgba(212,255,78,0.1);transition:top 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;white-space:nowrap}
+.rest-timer.show{top:max(env(safe-area-inset-top,20px),12px);pointer-events:auto}
+.rest-time{font-size:18px;font-weight:700;color:var(--acc);font-variant-numeric:tabular-nums;min-width:50px;text-align:center}
+.rest-close{color:var(--m2);font-size:13px;width:26px;height:26px;background:var(--card2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0}
 .done-ex-btn:active{background:var(--acc2)}
 /* STATS / PROGRESS */
 .stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:16px 14px 0}
@@ -235,6 +235,14 @@ canvas.prog-chart{display:block;width:100%;height:120px}
 .balance-bar-fill{height:100%;border-radius:4px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .hist-section{padding:0 14px 20px}
 .hw-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--m);margin:20px 0 8px}
+/* BACKUP */
+.backup-wrap{margin:16px 14px 0;background:var(--card);border:1px solid var(--b);border-radius:var(--r2);padding:14px}
+.backup-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--m2);margin-bottom:10px}
+.backup-row{display:flex;gap:8px}
+.backup-btn{flex:1;padding:12px 8px;border-radius:var(--r2);font-size:13px;font-weight:700;cursor:pointer;border:1px solid var(--b2);background:var(--card2);color:var(--t);display:flex;align-items:center;justify-content:center;gap:7px;transition:background .15s}
+.backup-btn:active{background:var(--b2)}
+.backup-btn.export-btn{border-color:rgba(212,255,78,.2);color:var(--acc)}
+.backup-hint{font-size:11px;color:var(--m);margin-top:8px;line-height:1.5}
 .hr-card{display:flex;justify-content:space-between;align-items:center;padding:11px 14px;background:var(--card);border:1px solid var(--b);border-radius:var(--r2);margin-bottom:6px}
 .hr-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .hr-dot.pierna{background:var(--pierna)}.hr-dot.torso{background:var(--torso)}.hr-dot.extra{background:var(--m2)}
@@ -323,77 +331,6 @@ canvas.bw-canvas{display:block;width:100%;height:130px}
 .cycle-date-badge{display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 .cycle-date-since{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--m2)}
 .cycle-date-val{font-size:13px;font-weight:700;color:var(--t)}
-/* === ENHANCED IOS & VISUAL DESIGN === */
-@keyframes cardSlideIn{from{opacity:0;transform:translateY(14px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
-#day-list > *{animation:cardSlideIn .32s cubic-bezier(.25,.46,.45,.94) both}
-#day-list > *:nth-child(2){animation-delay:.04s}#day-list > *:nth-child(3){animation-delay:.08s}
-#day-list > *:nth-child(4){animation-delay:.12s}#day-list > *:nth-child(5){animation-delay:.16s}
-#day-list > *:nth-child(6){animation-delay:.2s}#day-list > *:nth-child(7){animation-delay:.24s}
-#ex-list-body > *{animation:cardSlideIn .28s ease both}
-#ex-list-body > *:nth-child(2){animation-delay:.04s}#ex-list-body > *:nth-child(3){animation-delay:.07s}
-#ex-list-body > *:nth-child(4){animation-delay:.1s}#ex-list-body > *:nth-child(5){animation-delay:.13s}
-#ex-list-body > *:nth-child(6){animation-delay:.16s}#ex-list-body > *:nth-child(7){animation-delay:.19s}
-#ex-list-body > *:nth-child(8){animation-delay:.22s}
-.today-card{background:linear-gradient(145deg,var(--card) 60%,rgba(212,255,78,0.04) 100%)}
-.today-card:not(.done-today){border-color:rgba(212,255,78,0.2)}
-.day-card.done{background:linear-gradient(145deg,var(--card) 70%,rgba(212,255,78,0.03) 100%)}
-.set-card.pr-set{background:linear-gradient(145deg,var(--card) 60%,rgba(255,184,78,0.04) 100%)}
-.today-start-btn{box-shadow:0 4px 24px rgba(212,255,78,0.3),0 1px 3px rgba(0,0,0,0.3)}
-.today-start-btn:active{box-shadow:0 2px 12px rgba(212,255,78,0.2);transform:scale(.95)}
-.save-session-btn{box-shadow:0 4px 20px rgba(212,255,78,0.2)}
-.done-ck{box-shadow:0 0 12px rgba(212,255,78,0.3)}
-.cycle-pill.active,.wpill.active,.user-pill.active{box-shadow:0 2px 12px rgba(212,255,78,0.25)}
-.pbar-fill{background:linear-gradient(90deg,var(--acc2),var(--acc))}
-.today-pbar-fill{background:linear-gradient(90deg,var(--acc2),var(--acc))}
-.nav-btn{min-height:44px}.back-row{min-height:44px;padding:8px 0}
-.scr-body{overscroll-behavior-y:contain}
-.day-card{transition:transform .15s cubic-bezier(.4,0,.2,1),border-color .25s,box-shadow .25s}
-.day-card:active{transform:scale(.977);box-shadow:0 2px 16px rgba(0,0,0,0.15)}
-.welcome-logo{box-shadow:0 8px 40px rgba(212,255,78,0.35);animation-delay:.05s}
-.welcome-user-btn:active{box-shadow:0 0 20px rgba(212,255,78,0.08)}
-.stat-card{transition:transform .12s}.stat-card:active{transform:scale(0.97)}
-.stat-card.streak{box-shadow:inset 0 0 30px rgba(212,255,78,0.03)}
-.val-input:focus{box-shadow:0 0 0 3px rgba(212,255,78,0.1)}
-.search-input:focus{box-shadow:0 0 0 3px rgba(212,255,78,0.08)}
-.bw-input:focus{box-shadow:0 0 0 3px rgba(212,255,78,0.1)}
-.save-circle{box-shadow:0 0 60px rgba(212,255,78,0.4)}
-.pill-pierna{border:1px solid rgba(78,158,255,.12)}
-.pill-torso{border:1px solid rgba(255,107,78,.12)}
-@keyframes welcomeFadeIn{from{opacity:0;transform:scale(.96) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.welcome-screen > *{animation:welcomeFadeIn .4s cubic-bezier(.25,.46,.45,.94) both}
-.welcome-title{animation-delay:.12s}.welcome-sub{animation-delay:.19s}.welcome-users{animation-delay:.26s}
-.prog-suggest{animation:cardSlideIn .35s ease .1s both}
-.chart-wrap{animation:cardSlideIn .35s ease .05s both}
-@supports(-webkit-touch-callout:none){
-  .bottom-nav{padding-bottom:max(env(safe-area-inset-bottom,20px),28px)}
-  .scr-body{padding-bottom:calc(100px + env(safe-area-inset-bottom,34px))}
-}
-/* CALENDAR HEATMAP */
-.cal-wrap{margin:16px 14px 0;background:var(--card);border:1px solid var(--b);border-radius:var(--r2);padding:14px;overflow-x:auto;animation:cardSlideIn .35s ease .08s both}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.cal-title{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--m2)}
-.cal-legend{display:flex;align-items:center;gap:3px}
-.cal-leg-lbl{font-size:9px;color:var(--m);margin:0 2px}
-.cal-leg-cell{width:10px;height:10px;border-radius:2.5px;background:var(--acc)}
-.cal-months{display:flex;margin-bottom:4px;padding-left:22px;font-size:9px;color:var(--m);letter-spacing:.02em}
-.cal-body{display:flex;gap:0}
-.cal-labels{display:flex;flex-direction:column;gap:3px;margin-right:5px;flex-shrink:0}
-.cal-day-lbl{height:12px;font-size:9px;color:var(--m);display:flex;align-items:center;line-height:1}
-.cal-grid{display:grid;grid-template-rows:repeat(7,12px);grid-auto-flow:column;gap:3px}
-.cal-cell{width:12px;height:12px;border-radius:3px;background:rgba(255,255,255,0.04);transition:background .2s}
-.cal-cell.c1{background:rgba(212,255,78,0.2)}.cal-cell.c2{background:rgba(212,255,78,0.45)}
-.cal-cell.c3{background:rgba(212,255,78,0.7)}.cal-cell.c4{background:var(--acc)}
-.cal-cell.cal-today{outline:1.5px solid var(--acc);outline-offset:-1px}
-.cal-streak-row{display:flex;align-items:center;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--b)}
-.cal-streak-num{font-size:22px;font-weight:800;color:var(--acc)}
-.cal-streak-text{font-size:12px;color:var(--m2);font-weight:500}
-/* SET CHECK & TIMER */
-.set-check{width:46px;height:46px;margin-left:8px;border-radius:12px;background:var(--card3);border:1px solid var(--b2);color:var(--m2);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all 0.15s;font-size:18px}
-.set-check.checked{background:var(--acc);color:#0a0a0a;border-color:var(--acc);box-shadow:0 0 16px rgba(212,255,78,0.2)}
-.rest-timer{position:fixed;top:-80px;left:50%;transform:translateX(-50%);background:rgba(20,20,20,0.85);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,255,78,0.3);border-radius:30px;padding:8px 16px;display:flex;align-items:center;gap:12px;z-index:99999;box-shadow:0 10px 40px rgba(0,0,0,0.5),0 0 20px rgba(212,255,78,0.15);transition:top 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none}
-.rest-timer.show{top:max(env(safe-area-inset-top, 20px), 12px);pointer-events:auto}
-.rest-time{font-size:16px;font-weight:700;color:var(--t);font-variant-numeric:tabular-nums}
-.rest-close{color:var(--m);font-size:12px;width:24px;height:24px;background:var(--card2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer}
 </style>
 </head>
 <body>
@@ -565,17 +502,44 @@ var YT={
   'Abs':'https://www.youtube.com/results?search_query=abdominales+correctos+hipertrofia+core+tecnica+español+2024',
   'Plancha':'https://www.youtube.com/results?search_query=plancha+abdominal+tecnica+correcta+core+español+2024',
   'Encogimientos':'https://www.youtube.com/results?search_query=crunch+abdominales+tecnica+correcta+hipertrofia+español+2024',
-  'Step up':'https://www.youtube.com/results?search_query=step+up+subida+cajon+cuadriceps+gluteo+tecnica+español+2024',
-  'Sentadilla goblet':'https://www.youtube.com/results?search_query=sentadilla+goblet+kettlebell+tecnica+correcta+español+2024',
-  'Peso muerto rumano':'https://www.youtube.com/results?search_query=peso+muerto+rumano+isquiotibiales+gluteo+tecnica+español+2024',
-  'Patada de gluteo en polea':'https://www.youtube.com/results?search_query=patada+gluteo+polea+baja+tecnica+español+2024',
 };
 
 var DAYS=[
-  {id:'torso_a',name:'Tren Superior A',type:'torso',emoji:'💪',defEx:[{name:'Press banca inclinado',sets:3,tMin:8,tMax:12},{name:'Press banca plano',sets:3,tMin:8,tMax:12},{name:'Jalon al pecho',sets:3,tMin:10,tMax:12},{name:'Remo espalda alta',sets:3,tMin:10,tMax:12},{name:'Elevaciones laterales',sets:3,tMin:12,tMax:15},{name:'Biceps + Triceps biserie',sets:2,tMin:10,tMax:12}]},
-  {id:'pierna_a',name:'Pierna A',type:'pierna',emoji:'🦵',defEx:[{name:'Prensa',sets:3,tMin:10,tMax:15},{name:'Abductores',sets:3,tMin:12,tMax:15},{name:'Camilla isquios sentado',sets:3,tMin:10,tMax:12},{name:'Extension de cuadriceps',sets:3,tMin:10,tMax:12},{name:'Pantorrillas',sets:2,tMin:15,tMax:20},{name:'Abs',sets:3,tMin:15,tMax:20}]},
-  {id:'torso_b',name:'Tren Superior B',type:'torso',emoji:'💪',defEx:[{name:'Press banca inclinado',sets:3,tMin:8,tMax:12},{name:'Apertura en polea pecho',sets:3,tMin:12,tMax:15},{name:'Remo agarre cerrado',sets:3,tMin:10,tMax:12},{name:'Remo espalda alta (Seal row)',sets:3,tMin:10,tMax:12},{name:'Elevaciones laterales polea',sets:3,tMin:12,tMax:15},{name:'Biceps + Triceps biserie',sets:2,tMin:10,tMax:12}]},
-  {id:'pierna_b',name:'Pierna B',type:'pierna',emoji:'🦵',defEx:[{name:'Smith sentadilla',sets:3,tMin:8,tMax:12},{name:'Isquios parado',sets:3,tMin:10,tMax:12},{name:'Sentadilla bulgara',sets:3,tMin:10,tMax:12},{name:'Extension de cuadriceps',sets:3,tMin:10,tMax:12},{name:'Pantorrillas',sets:2,tMin:15,tMax:20},{name:'Abs',sets:3,tMin:15,tMax:20}]},
+  {id:'torso_a',name:'Tren Superior A',type:'torso',emoji:'💪',defEx:[
+    {name:'Press banca inclinado',sets:3,tMin:10,tMax:12},
+    {name:'Press banca plano o Aperturas',sets:3,tMin:10,tMax:12},
+    {name:'Jalon al pecho',sets:3,tMin:8,tMax:10},
+    {name:'Remo espalda alta',sets:3,tMin:8,tMax:10},
+    {name:'Elevaciones laterales',sets:3,tMin:10,tMax:12},
+    {name:'Biceps + Triceps biserie',sets:3,tMin:10,tMax:12},
+  ]},
+  {id:'pierna_a',name:'Pierna A',type:'pierna',emoji:'🦵',defEx:[
+    {name:'Prensa',sets:3,tMin:10,tMax:12},
+    {name:'Abductores',sets:3,tMin:12,tMax:15},
+    {name:'Camilla isquios sentado',sets:3,tMin:10,tMax:12},
+    {name:'Peso muerto a 1 pierna',sets:3,tMin:8,tMax:10},
+    {name:'Extension de cuadriceps',sets:3,tMin:12,tMax:15},
+    {name:'Pantorrillas',sets:2,tMin:15,tMax:20},
+    {name:'Abs',sets:3,tMin:15,tMax:15},
+  ]},
+  {id:'torso_b',name:'Tren Superior B',type:'torso',emoji:'💪',defEx:[
+    {name:'Press banca maquina o mancuernas',sets:3,tMin:10,tMax:12},
+    {name:'Apertura en polea pecho',sets:3,tMin:12,tMax:15},
+    {name:'Jalon agarre neutro',sets:3,tMin:10,tMax:12},
+    {name:'Remo hammer',sets:3,tMin:10,tMax:12},
+    {name:'Face pull',sets:3,tMin:15,tMax:20},
+    {name:'Elevaciones laterales polea',sets:3,tMin:12,tMax:15},
+    {name:'Biceps + Triceps biserie',sets:3,tMin:12,tMax:15},
+  ]},
+  {id:'pierna_b',name:'Pierna B',type:'pierna',emoji:'🦵',defEx:[
+    {name:'Smith sentadilla',sets:2,tMin:8,tMax:10},
+    {name:'Isquios parado',sets:4,tMin:12,tMax:15},
+    {name:'Sentadilla bulgara',sets:3,tMin:8,tMax:10},
+    {name:'Extension de cuadriceps',sets:3,tMin:12,tMax:15},
+    {name:'Pantorrillas',sets:3,tMin:15,tMax:20},
+    {name:'Abs',sets:3,tMin:15,tMax:15},
+    {name:'Hiperextensiones 45 grados',sets:3,tMin:15,tMax:15},
+  ]},
 ];
 
 var DAYS_NOVIA=[
@@ -616,7 +580,7 @@ var DAYS_NOVIA=[
     {name:'Abductores',sets:3,tMin:15,tMax:20},
   ]},
 ];
-var EX_LIST=["Press banca inclinado","Press banca plano","Press banca declinado","Aperturas","Apertura en polea pecho","Fondos","Jalon al pecho","Pulldown","Remo espalda alta","Remo agarre cerrado","Remo con barra","Remo espalda alta (Seal row)","Remo en polea","Curl biceps","Curl martillo","Extension triceps","Patada de triceps","Biceps + Triceps biserie","Press militar","Elevaciones laterales","Elevaciones laterales polea","Elevaciones frontales","Face pull","Dominadas","Prensa","Sentadilla","Smith sentadilla","Sentadilla bulgara","Extension de cuadriceps","Camilla isquios sentado","Isquios parado","Peso muerto","Hip thrust","Zancadas","Abductores","Hip abductor","Pantorrillas","Abs","Plancha","Peso muerto rumano","Step up","Sentadilla goblet","Patada de gluteo en polea"];
+var EX_LIST=["Press banca inclinado","Press banca plano","Press banca plano o Aperturas","Press banca maquina o mancuernas","Press banca declinado","Aperturas","Apertura en polea pecho","Fondos","Jalon al pecho","Jalon agarre neutro","Pulldown","Remo espalda alta","Remo agarre cerrado","Remo con barra","Remo espalda alta (Seal row)","Remo en polea","Remo hammer","Curl biceps","Curl martillo","Extension triceps","Patada de triceps","Biceps + Triceps biserie","Press militar","Elevaciones laterales","Elevaciones laterales polea","Elevaciones frontales","Face pull","Dominadas","Prensa","Sentadilla","Smith sentadilla","Sentadilla bulgara","Extension de cuadriceps","Camilla isquios sentado","Isquios parado","Peso muerto","Peso muerto a 1 pierna","Hip thrust","Zancadas","Abductores","Pantorrillas","Abs","Plancha","Hiperextensiones 45 grados","Peso muerto rumano","Step up","Sentadilla goblet","Patada de gluteo en polea"];
 
 var curCycle=1,curWeek=1,curDayId=null,curExIdx=null,curDayCfg=null,showSearch=false,editingTarget=false,editingName=false,chartMode='peso',addingExtraDay=false;
 var activeUser=localStorage.getItem('gl_active_user')||'faq'; // 'faq' or 'nov'
@@ -704,32 +668,29 @@ document.getElementById('confirm-sheet').addEventListener('click',function(e){
     pendingDeleteIdx=null;pendingDeleteCard=null;pendingDeleteWrap=null;
   }
 });
-// REST TIMER LOGIC
+
+// REST TIMER
 var restInt=null;
 function startRestTimer(secs){
-  var rt=document.getElementById('rest-timer'), rtime=document.getElementById('rest-time');
-  rt.classList.add('show');
-  clearInterval(restInt);
+  var rt=document.getElementById('rest-timer'),rtime=document.getElementById('rest-time');
+  if(!rt)return;
+  clearInterval(restInt);rt.classList.add('show');
   var target=Date.now()+secs*1000;
-  function update(){
+  function tick(){
     var rem=Math.max(0,Math.round((target-Date.now())/1000));
     var m=Math.floor(rem/60),s=rem%60;
     rtime.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-    if(rem<=0){clearInterval(restInt);haptic('heavy');setTimeout(function(){haptic('heavy');},200);rt.classList.remove('show');}
+    if(rem<=0){clearInterval(restInt);haptic('heavy');setTimeout(function(){haptic('medium');},300);rt.classList.remove('show');}
   }
-  update();
-  restInt=setInterval(update,1000);
+  tick();restInt=setInterval(tick,500);
 }
-document.getElementById('rest-timer-close').addEventListener('click',function(){
-  clearInterval(restInt);document.getElementById('rest-timer').classList.remove('show');
-});
-
+document.getElementById('rest-timer-close').addEventListener('click',function(){clearInterval(restInt);document.getElementById('rest-timer').classList.remove('show');});
 function sk(c,w,id){return 'gl_c'+c+'_w'+w+'_'+id;}
 function loadDay(c,w,id){try{var d=localStorage.getItem(sk(c,w,id));if(d)return JSON.parse(d);}catch(e){}return{exercises:[],saved:false};}
 function saveDay(c,w,id,data){try{localStorage.setItem(sk(c,w,id),JSON.stringify(data));}catch(e){}}
 function cd(){return loadDay(curCycle,curWeek,curDayId);}
 function sd(d){saveDay(curCycle,curWeek,curDayId,d);}
-function extraKey(c,w){return 'gl_extra_'+activeUser+'_c'+c+'_w'+w;}
+function extraKey(c,w){return 'gl_extra_c'+c+'_w'+w;}
 function loadExtras(c,w){try{var d=localStorage.getItem(extraKey(c,w));if(d)return JSON.parse(d);}catch(e){}return[];}
 function saveExtras(c,w,arr){try{localStorage.setItem(extraKey(c,w),JSON.stringify(arr));}catch(e){}}
 // Day custom names
@@ -746,11 +707,22 @@ var BW_KEY='gl_bodyweight';
 function bwKey(){return 'gl_bw_'+activeUser;}
 function loadBW(){try{var d=localStorage.getItem(bwKey());if(d)return JSON.parse(d);}catch(e){}return[];}
 function saveBW(arr){try{localStorage.setItem(bwKey(),JSON.stringify(arr));}catch(e){}}
-function numCycles(){var max=1;for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.startsWith('gl_c')){var m=k.match(/gl_c(\d+)_/);if(m)max=Math.max(max,parseInt(m[1]));}}return max;}
+function userCyclePrefix(){return 'gl_c';}
+function numCycles(){
+  var max=1;
+  var days=getActiveDays();
+  var dayIds={};for(var i=0;i<days.length;i++)dayIds[days[i].id]=true;
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(!k||!k.startsWith('gl_c'))continue;
+    var m=k.match(/gl_c(\d+)_w\d+_(.+)/);
+    if(m&&dayIds[m[2]])max=Math.max(max,parseInt(m[1]));
+  }
+  return max;
+}
 function addCycle(){curCycle=numCycles()+1;curWeek=1;
-  // Save start date for new cycle
   localStorage.setItem('gl_cycle_start_'+curCycle, new Date().toISOString().slice(0,10));
-  renderCycleRow();renderWeekPills();renderDayList();renderTodayCard();
+  renderCycleRow();renderWeekPills();renderDayList();renderTodayCard();renderCycleDateBadge();
   document.getElementById('main-week-lbl').textContent='· Semana 1';
 }
 function getCycleStartDate(c){
@@ -777,8 +749,32 @@ function renderCycleDateBadge(){
 function calcVol(sets){var v=0;for(var i=0;i<sets.length;i++)v+=(sets[i].weight||0)*(sets[i].reps||0);return v;}
 function calc1RM(sets){var best=0;for(var i=0;i<sets.length;i++){var w=sets[i].weight||0,r=sets[i].reps||0;if(r>0){var o=w*(1+r/30);if(o>best)best=o;}}return best>0?Math.round(best):null;}
 function fmtRange(ex){if(!ex.targetMin)return null;return ex.targetMin===ex.targetMax?ex.targetMin+' reps':ex.targetMin+'-'+ex.targetMax+' reps';}
-function allTimePR(exName){var best=0;for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||!k.startsWith('gl_c'))continue;if(k===sk(curCycle,curWeek,curDayId))continue;try{var d=JSON.parse(localStorage.getItem(k));var exs=d.exercises||[];for(var j=0;j<exs.length;j++){if(exs[j].name===exName){var sets=exs[j].sets||[];for(var s=0;s<sets.length;s++)if((sets[s].weight||0)>best)best=sets[s].weight;}}}catch(e){}}return best>0?best:null;}
-function prevSetsFor(name){var p=curWeek>1?loadDay(curCycle,curWeek-1,curDayId):null;if(!p)return null;for(var i=0;i<p.exercises.length;i++)if(p.exercises[i].name===name)return p.exercises[i].sets;return null;}
+function allTimePR(exName){
+  var best=0;
+  var days=getActiveDays();var dayIds={};for(var i=0;i<days.length;i++)dayIds[days[i].id]=true;
+  for(var i=0;i<localStorage.length;i++){
+    var k=localStorage.key(i);
+    if(!k||!k.startsWith('gl_c'))continue;
+    if(k===sk(curCycle,curWeek,curDayId))continue;
+    // Only look at keys belonging to current user's days
+    var match=k.match(/gl_c\d+_w\d+_(.+)/);
+    if(!match||!dayIds[match[1]])continue;
+    try{var d=JSON.parse(localStorage.getItem(k));var exs=d.exercises||[];for(var j=0;j<exs.length;j++){if(exs[j].name===exName){var sets=exs[j].sets||[];for(var s=0;s<sets.length;s++)if((sets[s].weight||0)>best)best=sets[s].weight;}}}catch(e){}
+  }
+  return best>0?best:null;
+}
+function prevSetsFor(name){
+  var p=null;
+  if(curWeek>1){
+    p=loadDay(curCycle,curWeek-1,curDayId);
+  } else if(curCycle>1){
+    // Week 1 of a new cycle — look at week 4 of previous cycle
+    p=loadDay(curCycle-1,4,curDayId);
+  }
+  if(!p)return null;
+  for(var i=0;i<p.exercises.length;i++)if(p.exercises[i].name===name)return p.exercises[i].sets;
+  return null;
+}
 function buildDefaultDay(cfg){var exs=[];for(var i=0;i<cfg.defEx.length;i++){var def=cfg.defEx[i],sets=[];for(var s=0;s<def.sets;s++)sets.push({weight:20,reps:def.tMin});exs.push({name:def.name,sets:sets,targetMin:def.tMin,targetMax:def.tMax});}return{exercises:exs,saved:false};}
 function initCarry(){var cur=cd();if(cur.exercises.length>0)return;var prev=curWeek>1?loadDay(curCycle,curWeek-1,curDayId):null;if(prev&&prev.exercises.length>0){sd({exercises:JSON.parse(JSON.stringify(prev.exercises)),saved:false,carriedFrom:curWeek-1});}else{var cfg=null;for(var i=0;i<getActiveDays().length;i++)if(getActiveDays()[i].id===curDayId)cfg=getActiveDays()[i];if(cfg)sd(buildDefaultDay(cfg));}}
 var ANIM_DUR=380;
@@ -806,11 +802,10 @@ function goTo(id,afterFn){
   });
 
   // Push history state so iOS swipe-back works
-  if(id!=='s-main'){
-    history.pushState({screen:id},'',location.pathname);
-  } else {
-    history.replaceState({screen:'s-main'},'',location.pathname);
-  }
+  try{
+    if(id!=='s-main') history.pushState({screen:id},'',location.pathname);
+    else history.replaceState({screen:'s-main'},'',location.pathname);
+  }catch(e){}
 }
 
 // Handle iOS swipe-back / browser back button
@@ -823,11 +818,11 @@ window.addEventListener('popstate',function(){
   if(cur==='s-ex'){
     editingTarget=false;editingName=false;
     goTo('s-day',function(){renderExList();});
-    history.pushState({screen:'s-day'},'',location.pathname);
+    try{history.pushState({screen:'s-day'},'',location.pathname);}catch(e){}
   } else if(cur==='s-day'){
     showSearch=false;addingExtraDay=false;
     goTo('s-main',function(){renderDayList();renderTodayCard();renderCycleDateBadge();});
-    history.replaceState({screen:'s-main'},'',location.pathname);
+    try{history.replaceState({screen:'s-main'},'',location.pathname);}catch(e){}
   }
 });
 function switchNav(active){['nav-rutina','nav-progreso','nav-peso'].forEach(function(id){document.getElementById(id).classList.toggle('active',id===active);});['tp-rutina','tp-progreso','tp-peso'].forEach(function(id){document.getElementById(id).classList.toggle('active',id==='tp-'+active.replace('nav-',''));});}
@@ -866,9 +861,9 @@ function renderTodayCard(){
   var info=document.createElement('div');
   var lbl=document.createElement('div');lbl.className='today-label';
   lbl.innerHTML=(isDone?'':'<span class="today-dot"></span>')+(next.allDone?'Ciclo completado 🏆':'Siguiente sesión');
-  var nm=document.createElement('div');nm.className='today-name';nm.textContent=cfg.name;
+  var nm=document.createElement('div');nm.className='today-name';nm.textContent=getDayName(cfg);
   var meta=document.createElement('div');meta.className='today-meta';
-  meta.textContent='Ciclo '+next.cycle+' · Semana '+next.week+(exCount>0?' · '+exCount+' ejs · '+vol+'kg':'');
+  meta.textContent='Ciclo '+next.cycle+' · Semana '+next.week+(exCount>0?' · '+exCount+' ejercicios':'');
   info.appendChild(lbl);info.appendChild(nm);info.appendChild(meta);
 
   var btn=document.createElement('button');
@@ -915,7 +910,7 @@ function renderTodayCard(){
 
 // MAIN
 function renderCycleRow(){var c=document.getElementById('cycle-row');c.innerHTML='';var total=numCycles();for(var n=1;n<=total;n++){(function(n){var b=document.createElement('button');b.className='cycle-pill'+(n===curCycle?' active':'');b.textContent='Ciclo '+n;b.addEventListener('click',function(){haptic('light');curCycle=n;curWeek=1;renderCycleRow();renderWeekPills();renderDayList();renderCycleDateBadge();document.getElementById('main-week-lbl').textContent='· Semana 1';});c.appendChild(b);})(n);}var nb=document.createElement('button');nb.className='cycle-new-btn';nb.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg><span>Nuevo ciclo</span>';nb.addEventListener('click',function(){haptic('medium');if(confirm('Empezar Ciclo '+(total+1)+'? El historial se conserva.')){addCycle();}});c.appendChild(nb);}
-function renderWeekPills(){var c=document.getElementById('week-pills');c.innerHTML='';for(var w=1;w<=4;w++){(function(w){var b=document.createElement('button');b.className='wpill'+(w===curWeek?' active':'');b.textContent='· Semana '+w;b.addEventListener('click',function(){haptic('light');curWeek=w;renderWeekPills();renderDayList();document.getElementById('main-week-lbl').textContent='· Semana '+w;});c.appendChild(b);})(w);}}
+function renderWeekPills(){var c=document.getElementById('week-pills');c.innerHTML='';for(var w=1;w<=4;w++){(function(w){var b=document.createElement('button');b.className='wpill'+(w===curWeek?' active':'');b.textContent='Semana '+w;b.addEventListener('click',function(){haptic('light');curWeek=w;renderWeekPills();renderDayList();document.getElementById('main-week-lbl').textContent='· Semana '+w;});c.appendChild(b);})(w);}}
 
 function renderDayList(){
   var c=document.getElementById('day-list');c.innerHTML='';
@@ -1132,15 +1127,18 @@ function renderExDetail(){
       return f;
     }
     body.appendChild(makeField('weight','kg',2.5,0));var sep=document.createElement('div');sep.className='set-sep';body.appendChild(sep);body.appendChild(makeField('reps','reps',1,1));
-    var chk=document.createElement('div');chk.className='set-check'+(s.done?' checked':'');chk.innerHTML='✓';
-    chk.addEventListener('click',function(){
+    // SET CHECK — tap to mark done + start rest timer
+    var chk=document.createElement('div');
+    chk.className='set-check'+(s.done?' checked':'');
+    chk.innerHTML=s.done?'✓':'';
+    chk.addEventListener('click',(function(si){return function(){
       haptic('success');
       var d=cd();var isDone=!d.exercises[curExIdx].sets[si].done;
       d.exercises[curExIdx].sets[si].done=isDone;
       sd(d);
-      if(isDone)startRestTimer(90); // 90s rest default
+      if(isDone){startRestTimer(90);}
       renderExDetail();
-    });
+    };})(si));
     body.appendChild(chk);
     card.appendChild(body);c.appendChild(card);
   })(si);}
@@ -1155,51 +1153,47 @@ function renderExDetail(){
 }
 
 // STREAK + BEST WEEK
-function calcStreak(){var totalCycles=numCycles(),streak=0;outer:for(var cyc=totalCycles;cyc>=1;cyc--){for(var w=4;w>=1;w--){var allSaved=true;for(var i=0;i<getActiveDays().length;i++){var d=loadDay(cyc,w,getActiveDays()[i].id);if(!d.saved){allSaved=false;break;}}if(allSaved)streak++;else if(streak===0)continue;else break outer;}}return streak;}
-function calcBestWeek(){var best={c:0,w:0,vol:0},totalCycles=numCycles();for(var cyc=1;cyc<=totalCycles;cyc++){for(var w=1;w<=4;w++){var wVol=0;for(var i=0;i<getActiveDays().length;i++){var d=loadDay(cyc,w,getActiveDays()[i].id);for(var j=0;j<d.exercises.length;j++)wVol+=calcVol(d.exercises[j].sets);}var extrs=loadExtras(cyc,w);for(var ei=0;ei<extrs.length;ei++){var edd=loadDay(cyc,w,extrs[ei].id);for(var j=0;j<edd.exercises.length;j++)wVol+=calcVol(edd.exercises[j].sets);}if(wVol>best.vol)best={c:cyc,w:w,vol:wVol};}}return best.vol>0?best:null;}
-
-// CALENDAR HEATMAP
-function renderCalendar(container){
-  var trainDates={},activeDayIds={};
-  for(var ai=0;ai<getActiveDays().length;ai++)activeDayIds[getActiveDays()[ai].id]=true;
-  for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(!k||!k.startsWith('gl_c'))continue;var hasActiveDay=false;for(var aid in activeDayIds){if(k.indexOf('_'+aid)>0){hasActiveDay=true;break;}}if(!hasActiveDay)continue;try{var d=JSON.parse(localStorage.getItem(k));if(d.savedAt){var dk=d.savedAt.slice(0,10);trainDates[dk]=(trainDates[dk]||0)+1;}}catch(e){}}
-  var today=new Date();var todayStr=today.toISOString().slice(0,10);
-  var weeks=14;var start=new Date(today);start.setDate(start.getDate()-((weeks-1)*7)-(start.getDay()||7)+1);
-  var wrap=document.createElement('div');wrap.className='cal-wrap';
-  var hdr=document.createElement('div');hdr.className='cal-header';
-  hdr.innerHTML='<span class="cal-title">Actividad</span><span class="cal-legend"><span class="cal-leg-lbl">Menos</span><span class="cal-leg-cell" style="opacity:.15"></span><span class="cal-leg-cell" style="opacity:.35"></span><span class="cal-leg-cell" style="opacity:.65"></span><span class="cal-leg-cell"></span><span class="cal-leg-lbl">Más</span></span>';
-  wrap.appendChild(hdr);
-  // Month row
-  var months=document.createElement('div');months.className='cal-months';
-  var M=['Ene','Feb','Mar','Abr','May','Jun','Jul','Ago','Sep','Oct','Nov','Dic'];
-  var lastMonth=-1;var cur=new Date(start);
-  for(var wi=0;wi<weeks;wi++){var m=cur.getMonth();if(m!==lastMonth){var ml=document.createElement('span');ml.textContent=M[m];ml.style.width=(wi===0?'15px':'auto');ml.style.marginRight='auto';months.appendChild(ml);lastMonth=m;}cur.setDate(cur.getDate()+7);}
-  wrap.appendChild(months);
-  var body=document.createElement('div');body.className='cal-body';
-  // Day labels
-  var labels=document.createElement('div');labels.className='cal-labels';
-  ['L','','M','','V','','D'].forEach(function(t){var l=document.createElement('div');l.className='cal-day-lbl';l.textContent=t;labels.appendChild(l);});
-  body.appendChild(labels);
-  // Grid
-  var grid=document.createElement('div');grid.className='cal-grid';
-  cur=new Date(start);var maxS=1;var vals=Object.keys(trainDates).map(function(k){return trainDates[k];});if(vals.length)maxS=Math.max.apply(null,vals);
-  var endDate=new Date(today);endDate.setDate(endDate.getDate()+((7-(endDate.getDay()||7))%7));
-  while(cur<=endDate){var ds=cur.getFullYear()+'-'+String(cur.getMonth()+1).padStart(2,'0')+'-'+String(cur.getDate()).padStart(2,'0');
-    var cell=document.createElement('div');cell.className='cal-cell';
-    var cnt=trainDates[ds]||0;
-    if(cnt>0){var ratio=cnt/maxS;cell.classList.add(ratio<=.25?'c1':ratio<=.5?'c2':ratio<=.75?'c3':'c4');}
-    if(ds===todayStr)cell.classList.add('cal-today');
-    if(cur>today&&!trainDates[ds])cell.style.opacity='.3';
-    grid.appendChild(cell);cur.setDate(cur.getDate()+1);}
-  body.appendChild(grid);wrap.appendChild(body);
-  // Training days count this week
-  var thisWeekStart=new Date(today);thisWeekStart.setDate(thisWeekStart.getDate()-(thisWeekStart.getDay()||7)+1);
-  var wCount=0;for(var dd=new Date(thisWeekStart);dd<=today;dd.setDate(dd.getDate()+1)){var dds=dd.getFullYear()+'-'+String(dd.getMonth()+1).padStart(2,'0')+'-'+String(dd.getDate()).padStart(2,'0');if(trainDates[dds])wCount++;}
-  var sr=document.createElement('div');sr.className='cal-streak-row';
-  sr.innerHTML='<span class="cal-streak-num">'+wCount+'</span><span class="cal-streak-text">sesiones esta semana</span>';
-  wrap.appendChild(sr);
-  container.appendChild(wrap);
+// BACKUP / RESTORE
+function exportBackup(){
+  var data={version:2,timestamp:new Date().toISOString(),storage:{}};
+  for(var i=0;i<localStorage.length;i++){var k=localStorage.key(i);if(k&&k.startsWith('gl_'))data.storage[k]=localStorage.getItem(k);}
+  var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='gymlog_backup_'+new Date().toISOString().slice(0,10)+'.json';
+  document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
+  haptic('success');
 }
+function importBackup(file){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var data=JSON.parse(e.target.result);
+      if(!data.storage)throw new Error('Invalid');
+      var count=0;Object.keys(data.storage).forEach(function(k){localStorage.setItem(k,data.storage[k]);count++;});
+      haptic('success');alert('✓ Backup restaurado ('+count+' registros). La app se recargará.');location.reload();
+    }catch(err){alert('Error al importar. Asegurate que sea un backup válido de GymLog.');}
+  };
+  reader.readAsText(file);
+}
+
+function calcStreak(){
+  var totalCycles=numCycles(),streak=0,started=false;
+  outer:for(var cyc=totalCycles;cyc>=1;cyc--){
+    for(var w=4;w>=1;w--){
+      var hasSaved=false,hasUnsaved=false;
+      for(var i=0;i<getActiveDays().length;i++){
+        var d=loadDay(cyc,w,getActiveDays()[i].id);
+        if(d.saved)hasSaved=true;
+        else if(d.exercises.length>0)hasUnsaved=true;
+      }
+      if(hasSaved&&!hasUnsaved){streak++;started=true;}
+      else if(started){break outer;} // had a non-complete week after starting count
+      // if never started yet, skip empty weeks at the end
+    }
+  }
+  return streak;
+}
+function calcBestWeek(){var best={c:0,w:0,vol:0},totalCycles=numCycles();for(var cyc=1;cyc<=totalCycles;cyc++){for(var w=1;w<=4;w++){var wVol=0;for(var i=0;i<getActiveDays().length;i++){var d=loadDay(cyc,w,getActiveDays()[i].id);for(var j=0;j<d.exercises.length;j++)wVol+=calcVol(d.exercises[j].sets);}if(wVol>best.vol)best={c:cyc,w:w,vol:wVol};}}return best.vol>0?best:null;}
 
 // PROGRESS
 function renderProgress(){
@@ -1212,11 +1206,25 @@ function renderProgress(){
     +'<div class="stat-card"><div class="stat-val">'+(totVol>=1000?(totVol/1000).toFixed(1)+'t':totVol+'kg')+'</div><div class="stat-lbl">Volumen total</div></div>'
     +'<div class="stat-card"><div class="stat-val">'+(sess>0?Math.round(totSets/sess):0)+'</div><div class="stat-lbl">Series/sesion</div></div>'
     +'<div class="stat-card streak" style="grid-column:span 2"><div style="display:flex;align-items:baseline;gap:8px"><div class="stat-val">'+streak+'</div><div style="font-size:13px;color:rgba(212,255,78,.6);font-weight:600">'+(streak===1?'semana':'semanas')+' seguidas</div></div><div class="stat-lbl">🔥 Racha actual</div></div>';
-  var hs=document.getElementById('hist-section');hs.innerHTML='';
-  renderCalendar(hs);
-  if(!rows.length){return;}
+  var hs=document.getElementById('hist-section');
+  if(!rows.length){hs.innerHTML='<div class="empty-hint"><div class="ico">📈</div><strong>Sin sesiones aun</strong>Completa tu primera sesion</div>';return;}
+  hs.innerHTML='';
   // Balance chart
   var balWrap=document.createElement('div');balWrap.className='balance-wrap';var balHdr=document.createElement('div');balHdr.className='balance-header';balHdr.innerHTML='<span class="balance-title">Balance muscular</span><span class="balance-week-lbl">C'+curCycle+' · S'+curWeek+'</span>';balWrap.appendChild(balHdr);var balBars=document.createElement('div');balBars.className='balance-bars';var groups={pierna:0,torso:0,extra:0};for(var i=0;i<getActiveDays().length;i++){var dd=loadDay(curCycle,curWeek,getActiveDays()[i].id);for(var j=0;j<dd.exercises.length;j++)groups[getActiveDays()[i].type]=(groups[getActiveDays()[i].type]||0)+calcVol(dd.exercises[j].sets);}var extrs=loadExtras(curCycle,curWeek);for(var ei=0;ei<extrs.length;ei++){var edd=loadDay(curCycle,curWeek,extrs[ei].id);for(var j=0;j<edd.exercises.length;j++)groups.extra+=calcVol(edd.exercises[j].sets);}var maxG=Math.max(groups.pierna,groups.torso,groups.extra,1);[{key:'pierna',label:'Pierna',color:'var(--pierna)'},{key:'torso',label:'Tren superior',color:'var(--torso)'},{key:'extra',label:'Días extra',color:'var(--m2)'}].forEach(function(gd){if(!groups[gd.key])return;var brow=document.createElement('div');brow.className='balance-row';var bhdr=document.createElement('div');bhdr.className='balance-row-hdr';bhdr.innerHTML='<span class="balance-row-name">'+gd.label+'</span><span class="balance-row-val">'+groups[gd.key]+'kg</span>';var btrack=document.createElement('div');btrack.className='balance-bar-track';var bfill=document.createElement('div');bfill.className='balance-bar-fill';bfill.style.width='0%';bfill.style.background=gd.color;brow.appendChild(bhdr);btrack.appendChild(bfill);brow.appendChild(btrack);balBars.appendChild(brow);setTimeout((function(bf,pct){return function(){bf.style.width=pct+'%';};})(bfill,Math.round(groups[gd.key]/maxG*100)),50);});balWrap.appendChild(balBars);hs.appendChild(balWrap);
+  // BACKUP WIDGET
+  var bkWrap=document.createElement('div');bkWrap.className='backup-wrap';
+  bkWrap.innerHTML='<div class="backup-title">💾 Backup de datos</div>';
+  var bkRow=document.createElement('div');bkRow.className='backup-row';
+  var expBtn=document.createElement('button');expBtn.className='backup-btn export-btn';expBtn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Exportar';
+  expBtn.addEventListener('click',function(){haptic('medium');exportBackup();});
+  var impBtn=document.createElement('button');impBtn.className='backup-btn';impBtn.innerHTML='<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>Importar';
+  var fileInp=document.createElement('input');fileInp.type='file';fileInp.accept='.json';fileInp.style.display='none';
+  fileInp.addEventListener('change',function(e){if(e.target.files[0])importBackup(e.target.files[0]);});
+  impBtn.addEventListener('click',function(){haptic('light');fileInp.click();});
+  bkRow.appendChild(expBtn);bkRow.appendChild(impBtn);bkRow.appendChild(fileInp);bkWrap.appendChild(bkRow);
+  var bkHint=document.createElement('div');bkHint.className='backup-hint';bkHint.textContent='Exportá tus datos antes de cambiar de celu o borrar Safari. Guardalo en iCloud o Google Drive.';
+  bkWrap.appendChild(bkHint);hs.appendChild(bkWrap);
+
   // History
   var bk={};for(var r=0;r<rows.length;r++){var key='C'+rows[r].c+'S'+rows[r].w;if(!bk[key])bk[key]={c:rows[r].c,w:rows[r].w,rows:[]};bk[key].rows.push(rows[r]);}var keys=Object.keys(bk).sort(function(a,b){return b.localeCompare(a);});
   for(var ki=0;ki<keys.length;ki++){var grp=bk[keys[ki]];var isBest=bestWeek&&bestWeek.c===grp.c&&bestWeek.w===grp.w;var wl=document.createElement('div');wl.className='hw-lbl';wl.innerHTML='Ciclo '+grp.c+' · Semana '+grp.w+(isBest?'<span class="best-week-badge">⭐ Mejor semana</span>':'');hs.appendChild(wl);for(var ri=0;ri<grp.rows.length;ri++){var rr=grp.rows[ri];var vol2=0;for(var j=0;j<rr.data.exercises.length;j++)vol2+=calcVol(rr.data.exercises[j].sets);var rd=document.createElement('div');rd.className='hr-card';if(isBest)rd.style.borderColor='rgba(255,184,78,.2)';rd.innerHTML='<div style="display:flex;align-items:center;gap:10px"><div class="hr-dot '+rr.cfg.type+'"></div><div><div class="hr-name">'+rr.cfg.name+'</div><div class="hr-meta">'+rr.data.exercises.length+' ejercicios</div>'+(rr.data.notes?'<div class="hr-note">'+rr.data.notes+'</div>':'')+'</div></div><div class="hr-vol">'+vol2+'kg</div>';hs.appendChild(rd);}}
@@ -1294,29 +1302,11 @@ function renderBodyWeight(){
   var delta=prev?Math.round((latest-prev)*10)/10:null;
   var deltaHtml=delta!==null?'<span class="bw-latest-delta '+(delta>0?'bw-delta-up':delta<0?'bw-delta-dn':'bw-delta-eq')+'">'+(delta>0?'+':'')+delta+'kg</span>':'';
   chartHdr.innerHTML='<span class="bw-chart-title">Evolución</span><div style="display:flex;align-items:baseline;gap:6px"><span class="bw-latest-val">'+latest+'kg</span>'+deltaHtml+'</div>';
-  var bwSvgWrap=document.createElement('div');bwSvgWrap.style.marginTop='16px';
-  chartCard.appendChild(chartHdr);chartCard.appendChild(bwSvgWrap);c.appendChild(chartCard);
+  var bwCanvas=document.createElement('canvas');bwCanvas.className='bw-canvas';
+  chartCard.appendChild(chartHdr);chartCard.appendChild(bwCanvas);c.appendChild(chartCard);
   setTimeout(function(){
     var sorted=loadBW().sort(function(a,b){return a.date.localeCompare(b.date);});
-    var pts = sorted.slice(-30).map(function(e){return e.weight;});
-    if(pts.length>1){
-      var svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute('viewBox','0 -5 100 50');svg.setAttribute('preserveAspectRatio','none');svg.style.width='100%';svg.style.height='120px';svg.style.overflow='visible';
-      var min=Math.min.apply(null,pts)-1,max=Math.max.apply(null,pts)+1;
-      var rng=max-min,step=100/(pts.length-1),d='',col=delta>0?'var(--red)':'var(--acc)';
-      for(var i=0;i<pts.length;i++){
-        var x=i*step,y=40-((pts[i]-min)/rng)*30;
-        if(d==='')d+='M '+x+' '+y;else d+=' L '+x+' '+y;
-        var gc=document.createElementNS("http://www.w3.org/2000/svg","circle");
-        gc.setAttribute('cx',x);gc.setAttribute('cy',y);gc.setAttribute('r','1.5');gc.setAttribute('fill',col);svg.appendChild(gc);
-      }
-      var p=document.createElementNS("http://www.w3.org/2000/svg","path");p.setAttribute('d',d);p.setAttribute('fill','none');p.setAttribute('stroke',col);p.setAttribute('stroke-width','2.5');p.setAttribute('stroke-linecap','round');p.setAttribute('stroke-linejoin','round');
-      p.style.strokeDasharray='500';p.style.strokeDashoffset='500';p.style.transition='stroke-dashoffset 1.2s cubic-bezier(.22,1,.36,1)';
-      svg.insertBefore(p,svg.firstChild);
-      bwSvgWrap.appendChild(svg);
-      setTimeout(function(){p.style.strokeDashoffset='0';},50);
-    } else {
-      bwSvgWrap.innerHTML='<div style="color:var(--m2);font-size:13px;text-align:center">Anotá otro peso más para ver el gráfico</div>';
-    }
+    drawLineChart(bwCanvas,sorted.slice(-30).map(function(e){return e.weight;}),'#4e9eff');
   },30);
 
   // LIST
@@ -1355,26 +1345,24 @@ document.getElementById('back-to-day').addEventListener('click',function(){
   goTo('s-day',function(){renderExList();});
 });
 
-renderCycleRow();renderWeekPills();renderDayList();renderTodayCard();
 // Auto-guardar fecha de inicio del ciclo 1 si no existe
 if(!localStorage.getItem('gl_cycle_start_1')){
   localStorage.setItem('gl_cycle_start_1', new Date().toISOString().slice(0,10));
 }
-renderCycleDateBadge();
 
 // WELCOME SCREEN
 function showWelcome(){document.getElementById('welcome-screen').classList.remove('hidden');}
-function hideWelcome(user){document.getElementById('welcome-screen').classList.add('hidden');switchUser(user,true);}
+function hideWelcome(user){document.getElementById('welcome-screen').classList.add('hidden');switchUser(user);}
 document.getElementById('welcome-faq').addEventListener('click',function(){haptic('medium');hideWelcome('faq');});
 document.getElementById('welcome-nov').addEventListener('click',function(){haptic('medium');hideWelcome('nov');});
 
 // USER SWITCHER
-function switchUser(user,fromWelcome){
+function switchUser(user){
   activeUser=user;
   localStorage.setItem('gl_active_user',user);
-  var next = getNextSession();
-  curCycle = next.cycle || 1;
-  curWeek = next.week || 1;
+  // Jump to where this user left off
+  var next=getNextSession();
+  curCycle=next.cycle||1;curWeek=next.week||1;
   document.getElementById('user-faq').classList.toggle('active',user==='faq');
   document.getElementById('user-nov').classList.toggle('active',user==='nov');
   document.getElementById('main-week-lbl').textContent='· Semana '+curWeek;
@@ -1382,19 +1370,16 @@ function switchUser(user,fromWelcome){
 }
 document.getElementById('user-faq').addEventListener('click',function(){haptic('light');switchUser('faq');});
 document.getElementById('user-nov').addEventListener('click',function(){haptic('light');switchUser('nov');});
-document.getElementById('user-faq').classList.toggle('active',activeUser==='faq');
-document.getElementById('user-nov').classList.toggle('active',activeUser==='nov');
 
-// Show welcome screen on every open, initialize correctly
-var savedUser = localStorage.getItem('gl_active_user');
-if (savedUser) {
+// Init: skip welcome if user already chosen
+var savedUser=localStorage.getItem('gl_active_user');
+if(savedUser){
   document.getElementById('welcome-screen').classList.add('hidden');
-  switchUser(savedUser, false);
+  switchUser(savedUser);
 } else {
   showWelcome();
 }
-// PWA SERVICE WORKER
-if('serviceWorker' in navigator){navigator.serviceWorker.register('./sw.js').catch(function(){});}
 </script>
 </body>
 </html>
+
