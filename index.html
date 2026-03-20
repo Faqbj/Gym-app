@@ -22,9 +22,10 @@
 html{height:100%;height:-webkit-fill-available}
 body{height:100%;height:-webkit-fill-available;min-height:100dvh;background:var(--bg);color:var(--t);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif;overscroll-behavior:none;-webkit-font-smoothing:antialiased;text-size-adjust:none;-webkit-text-size-adjust:none}
 #app{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;width:100%;height:100%;height:100dvh}
-.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transition:transform .32s cubic-bezier(.4,0,.2,1),opacity .32s;will-change:transform;overflow:hidden}
+.screen{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);will-change:transform;overflow:hidden}
 .screen.slide-right{transform:translateX(100%);pointer-events:none}
-.screen.slide-left{transform:translateX(-30%);opacity:.3;pointer-events:none}
+.screen.slide-left{transform:translateX(-28%);opacity:.25;pointer-events:none}
+.screen.animating{transition:transform .38s cubic-bezier(.25,.46,.45,.94),opacity .38s cubic-bezier(.25,.46,.45,.94)}
 .scr-body{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:calc(80px + env(safe-area-inset-bottom,0px))}
 .topbar{padding:max(52px,env(safe-area-inset-top,52px)) 20px 0;flex-shrink:0}
 .app-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--m2);margin-bottom:5px}
@@ -582,14 +583,30 @@ function allTimePR(exName){var best=0;for(var i=0;i<localStorage.length;i++){var
 function prevSetsFor(name){var p=curWeek>1?loadDay(curCycle,curWeek-1,curDayId):null;if(!p)return null;for(var i=0;i<p.exercises.length;i++)if(p.exercises[i].name===name)return p.exercises[i].sets;return null;}
 function buildDefaultDay(cfg){var exs=[];for(var i=0;i<cfg.defEx.length;i++){var def=cfg.defEx[i],sets=[];for(var s=0;s<def.sets;s++)sets.push({weight:20,reps:def.tMin});exs.push({name:def.name,sets:sets,targetMin:def.tMin,targetMax:def.tMax});}return{exercises:exs,saved:false};}
 function initCarry(){var cur=cd();if(cur.exercises.length>0)return;var prev=curWeek>1?loadDay(curCycle,curWeek-1,curDayId):null;if(prev&&prev.exercises.length>0){sd({exercises:JSON.parse(JSON.stringify(prev.exercises)),saved:false,carriedFrom:curWeek-1});}else{var cfg=null;for(var i=0;i<DAYS.length;i++)if(DAYS[i].id===curDayId)cfg=DAYS[i];if(cfg)sd(buildDefaultDay(cfg));}}
-function goTo(id){
-  var screens=['s-main','s-day','s-ex'],idx=screens.indexOf(id);
-  for(var i=0;i<screens.length;i++){
-    var el=document.getElementById(screens[i]);
-    el.classList.remove('slide-right','slide-left');
-    if(i<idx)el.classList.add('slide-left');
-    else if(i>idx)el.classList.add('slide-right');
-  }
+var ANIM_DUR=380;
+function goTo(id,afterFn){
+  var screens=['s-main','s-day','s-ex'];
+  var idx=screens.indexOf(id);
+  var els=screens.map(function(s){return document.getElementById(s);});
+
+  // Add animating class to all, then set positions
+  els.forEach(function(el){el.classList.add('animating');});
+
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      els.forEach(function(el,i){
+        el.classList.remove('slide-right','slide-left');
+        if(i<idx) el.classList.add('slide-left');
+        else if(i>idx) el.classList.add('slide-right');
+      });
+      // After animation completes, remove animating class and run callback
+      setTimeout(function(){
+        els.forEach(function(el){el.classList.remove('animating');});
+        if(afterFn) afterFn();
+      }, ANIM_DUR);
+    });
+  });
+
   // Push history state so iOS swipe-back works
   if(id!=='s-main'){
     history.pushState({screen:id},'',location.pathname);
@@ -599,21 +616,19 @@ function goTo(id){
 }
 
 // Handle iOS swipe-back / browser back button
-window.addEventListener('popstate',function(e){
+window.addEventListener('popstate',function(){
   var cur='s-main';
-  // Figure out which screen is currently active (not slid away)
   ['s-ex','s-day','s-main'].forEach(function(id){
     var el=document.getElementById(id);
     if(!el.classList.contains('slide-right')&&!el.classList.contains('slide-left'))cur=id;
   });
   if(cur==='s-ex'){
     editingTarget=false;editingName=false;
-    goTo('s-day');renderExList();
-    // Push state back so another swipe goes to s-main
+    goTo('s-day',function(){renderExList();});
     history.pushState({screen:'s-day'},'',location.pathname);
   } else if(cur==='s-day'){
     showSearch=false;addingExtraDay=false;
-    goTo('s-main');renderDayList();renderTodayCard();renderCycleDateBadge();
+    goTo('s-main',function(){renderDayList();renderTodayCard();renderCycleDateBadge();});
     history.replaceState({screen:'s-main'},'',location.pathname);
   }
 });
@@ -768,7 +783,16 @@ function renderDayList(){
 }
 
 // DAY
-function openDay(cfg){curDayId=cfg.id;curDayCfg=cfg;initCarry();var pp=document.getElementById('day-type-pill');pp.className='type-pill '+(cfg.type==='pierna'?'pill-pierna':cfg.type==='torso'?'pill-torso':'extra-pill');pp.textContent=cfg.type;document.getElementById('day-title').textContent=getDayName(cfg);document.getElementById('day-week-sub').textContent='Ciclo '+curCycle+' · Semana '+curWeek+(curWeek>1?' — basado en S'+(curWeek-1):'');renderExList();goTo('s-day');}
+function openDay(cfg){
+  curDayId=cfg.id;curDayCfg=cfg;initCarry();
+  var pp=document.getElementById('day-type-pill');
+  pp.className='type-pill '+(cfg.type==='pierna'?'pill-pierna':cfg.type==='torso'?'pill-torso':'extra-pill');
+  pp.textContent=cfg.type;
+  document.getElementById('day-title').textContent=getDayName(cfg);
+  document.getElementById('day-week-sub').textContent='Ciclo '+curCycle+' · Semana '+curWeek+(curWeek>1?' — basado en S'+(curWeek-1):'');
+  renderExList();
+  goTo('s-day');
+}
 
 function setupSwipe(wrap,card,i,exName){var startX=0,dx=0;card.addEventListener('touchstart',function(e){startX=e.touches[0].clientX;dx=0;},{passive:true});card.addEventListener('touchmove',function(e){dx=e.touches[0].clientX-startX;if(dx<0){card.style.transition='none';card.style.transform='translateX('+Math.max(dx,-80)+'px)';}else if(dx>0){card.style.transition='none';card.style.transform='translateX(0px)';}},{passive:true});card.addEventListener('touchend',function(){card.style.transition='transform .2s ease';if(dx<-50){card.style.transform='translateX(-80px)';setTimeout(function(){showConfirmDelete(exName,i,card,wrap);},200);}else{card.style.transform='translateX(0px)';}});}
 var dragIdx=null,dragOverIdx=null;
@@ -918,7 +942,7 @@ function renderExDetail(){
   var done=document.createElement('button');done.className='done-ex-btn';
   done.style.cssText='background:var(--card2);color:var(--m2);border:1px solid var(--b2)';
   done.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle;margin-right:6px"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>Volver — se guardó automáticamente';
-  done.addEventListener('click',function(){haptic('light');goTo('s-day');renderExList();});c.appendChild(done);
+  done.addEventListener('click',function(){haptic('light');goTo('s-day',function(){renderExList();});});c.appendChild(done);
 }
 
 // STREAK + BEST WEEK
@@ -1052,8 +1076,14 @@ function renderBodyWeight(){
 document.getElementById('nav-rutina').addEventListener('click',function(){haptic('light');switchNav('nav-rutina');});
 document.getElementById('nav-progreso').addEventListener('click',function(){haptic('light');switchNav('nav-progreso');renderProgress();});
 document.getElementById('nav-peso').addEventListener('click',function(){haptic('light');switchNav('nav-peso');renderBodyWeight();});
-document.getElementById('back-to-main').addEventListener('click',function(){haptic('light');showSearch=false;addingExtraDay=false;goTo('s-main');renderDayList();renderTodayCard();renderCycleDateBadge();});
-document.getElementById('back-to-day').addEventListener('click',function(){haptic('light');editingTarget=false;editingName=false;goTo('s-day');renderExList();});
+document.getElementById('back-to-main').addEventListener('click',function(){
+  haptic('light');showSearch=false;addingExtraDay=false;
+  goTo('s-main',function(){renderDayList();renderTodayCard();renderCycleDateBadge();});
+});
+document.getElementById('back-to-day').addEventListener('click',function(){
+  haptic('light');editingTarget=false;editingName=false;
+  goTo('s-day',function(){renderExList();});
+});
 
 renderCycleRow();renderWeekPills();renderDayList();renderTodayCard();
 // Auto-guardar fecha de inicio del ciclo 1 si no existe
